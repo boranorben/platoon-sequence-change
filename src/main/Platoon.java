@@ -32,7 +32,7 @@ public class Platoon {
 	}
 
 	public static void main(String[] args) {
-		new Platoon(4);
+		new Platoon(6);
 	}
 }
 
@@ -87,10 +87,10 @@ class DrivingThread implements Runnable {
 				Truck truck = this.platoon.get(i);
 				for (int j = i + 1; j < this.platoon.size(); j++) {
 					Truck nextTruck = this.platoon.get(j);
-					if (nextTruck.getCurrentFuel() - truck.getCurrentFuel() >= 32.6) {
-						swap(i, j, platoon);
-						this.swapCnt++;
-					}
+//					if (nextTruck.getCurrentFuel() - truck.getCurrentFuel() >= 32.6) {
+//						swap(i, j, platoon);
+//						this.swapCnt++;
+//					}
 
 //					if (nextTruck.getCurrentFuel() - truck.getCurrentFuel() >= 16.3) {
 //						swap(i, j, platoon);
@@ -118,12 +118,12 @@ class DrivingThread implements Runnable {
 //						}
 //					}
 					
-//					if (Math.floor(getCurrentTime()) % 10 == 0) {
-//						if (truck.getCurrentFuel() < nextTruck.getCurrentFuel()) {
-//							swap(i, j, platoon);
-//							this.swapCnt++;
-//						}
-//					}
+					if (Math.floor(getCurrentTime()) % 10 == 0) {
+						if (truck.getCurrentFuel() < nextTruck.getCurrentFuel()) {
+							swap(i, j, platoon);
+							this.swapCnt++;
+						}
+					}
 				}
 
 				switch (i + 1) {
