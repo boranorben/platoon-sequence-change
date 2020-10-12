@@ -32,13 +32,14 @@ public class Platoon {
 	}
 
 	public static void main(String[] args) {
-		new Platoon(6);
+		new Platoon(2);
 	}
 }
 
 class DrivingThread implements Runnable {
 	private ArrayList<Truck> platoon;
 	private boolean isDriving;
+	private boolean isSwap;
 	private int distCnt = 0;
 	private int swapCnt = 0;
 
@@ -50,6 +51,7 @@ class DrivingThread implements Runnable {
 	public DrivingThread(ArrayList<Truck> platoon) {
 		this.platoon = platoon;
 		this.isDriving = true;
+		this.isSwap = false;
 	}
 
 	public synchronized void stopDriving() {
@@ -70,11 +72,21 @@ class DrivingThread implements Runnable {
 
 	private void swap(int i, int j, ArrayList<Truck> platoon) {
 		Collections.swap(platoon, i, j);
+		this.setSwap(true);
+	}
+
+	private boolean isSwap() {
+		return this.isSwap;
+	}
+
+	private void setSwap(boolean swapping) {
+		this.isSwap = swapping;
 	}
 
 	@Override
 	public void run() {
 		while (isDriving) {
+			this.setSwap(false);
 			this.distCnt++;
 
 			try {
@@ -88,42 +100,24 @@ class DrivingThread implements Runnable {
 				for (int j = i + 1; j < this.platoon.size(); j++) {
 					Truck nextTruck = this.platoon.get(j);
 //					if (nextTruck.getCurrentFuel() - truck.getCurrentFuel() >= 32.6) {
-//						swap(i, j, platoon);
-//						this.swapCnt++;
+//						swap(i, j, this.platoon);
 //					}
 
 //					if (nextTruck.getCurrentFuel() - truck.getCurrentFuel() >= 16.3) {
-//						swap(i, j, platoon);
-//						this.swapCnt++;
+//						swap(i, j, this.platoon);
 //					}
 
-//					if (this.distCnt % 1000 == 0) {
-//						if (truck.getCurrentFuel() < nextTruck.getCurrentFuel()) {
-//							swap(i, j, platoon);
-//							this.swapCnt++;
-//						}
-//					}
-
-//					if (this.distCnt % 2000 == 0) {
-//						if (truck.getCurrentFuel() < nextTruck.getCurrentFuel()) {
-//							swap(i, j, platoon);
-//							this.swapCnt++;
-//						}
-//					}
-
-//					if (Math.floor(getCurrentTime()) % 5 == 0) {
-//						if (truck.getCurrentFuel() < nextTruck.getCurrentFuel()) {
-//							swap(i, j, platoon);
-//							this.swapCnt++;
-//						}
-//					}
-					
-					if (Math.floor(getCurrentTime()) % 10 == 0) {
-						if (truck.getCurrentFuel() < nextTruck.getCurrentFuel()) {
-							swap(i, j, platoon);
-							this.swapCnt++;
+					if (getCurrentTime() == Math.floor(getCurrentTime())) {
+						if (nextTruck.getCurrentFuel() > truck.getCurrentFuel()) {
+							swap(i, j, this.platoon);
 						}
 					}
+
+//					if (getCurrentTime() == Math.floor(getCurrentTime()) && Math.floor(getCurrentTime()) % 12 == 0) {
+//						if (nextTruck.getCurrentFuel() > truck.getCurrentFuel()) {
+//							swap(i, j, this.platoon);
+//						}
+//					}
 				}
 
 				switch (i + 1) {
@@ -140,17 +134,18 @@ class DrivingThread implements Runnable {
 					truck.fuelCalculate(FIRST_REDUCE * (i + 1 + 0.5));
 					break;
 				}
-
 				if (truck.getCurrentFuel() <= 0) {
 					stopDriving();
 					break;
 				} else {
-//					System.out.printf("Order: %s Truck: %.2f Liters remains \n", truck.getOrder(),
-//							truck.getCurrentFuel());
+					System.out.printf("Order: %s Truck: %.2f Liters remains \n", truck.getOrder(),
+							truck.getCurrentFuel());
 				}
-
 			}
-//			System.out.println("--------------------------------");
+			if (isSwap()) {
+				this.swapCnt++;
+			}
+			System.out.println("------------------------------------");
 		}
 	}
 
