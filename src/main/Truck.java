@@ -5,7 +5,7 @@ public class Truck {
 	private double currentFuel;
 	private double fuelConsump = 0.326; // 32.6 LITERS/100KM
 
-	private final double FUEL_INIT = 1211.33; // 320 GALLON = 1211.33 LITERS
+	private final double FUEL_INIT = 1135.82; // 300 GALLON = 1135.82 LITERS
 
 	public Truck(String order) {
 		this.order = order;

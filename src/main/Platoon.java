@@ -32,7 +32,7 @@ public class Platoon {
 	}
 
 	public static void main(String[] args) {
-		new Platoon(2);
+		new Platoon(3);
 	}
 }
 
@@ -107,17 +107,17 @@ class DrivingThread implements Runnable {
 //						swap(i, j, this.platoon);
 //					}
 
-					if (getCurrentTime() == Math.floor(getCurrentTime())) {
-						if (nextTruck.getCurrentFuel() > truck.getCurrentFuel()) {
-							swap(i, j, this.platoon);
-						}
-					}
-
-//					if (getCurrentTime() == Math.floor(getCurrentTime()) && Math.floor(getCurrentTime()) % 12 == 0) {
+//					if (getCurrentTime() == Math.floor(getCurrentTime())) {
 //						if (nextTruck.getCurrentFuel() > truck.getCurrentFuel()) {
 //							swap(i, j, this.platoon);
 //						}
 //					}
+
+					if (getCurrentTime() == Math.floor(getCurrentTime()) && Math.floor(getCurrentTime()) % 12 == 0) {
+						if (nextTruck.getCurrentFuel() > truck.getCurrentFuel()) {
+							swap(i, j, this.platoon);
+						}
+					}
 				}
 
 				switch (i + 1) {
@@ -145,6 +145,7 @@ class DrivingThread implements Runnable {
 			if (isSwap()) {
 				this.swapCnt++;
 			}
+			System.out.println(isSwap());
 			System.out.println("------------------------------------");
 		}
 	}
