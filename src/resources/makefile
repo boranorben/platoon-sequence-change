@@ -1,6 +1,6 @@
 SOURCE = ../main/
 OUTPUT = ../../out/
-MANIFEST = ./MANIFEST.MF
+MANIFEST = ./manifest.mf
 JARFILE = Platoon.jar
 
 jar_exe:
@@ -12,5 +12,3 @@ jar:
 
 clean:
 	rm -rf $(OUTPUT) $(JARFILE)
-
-
