@@ -15,8 +15,8 @@ public class Platoon {
 		for (int i = 0; i < numTruck; i++) {
 			Random random = new Random();
 			double randomFuel = RANGE[0] + (RANGE[1] - RANGE[0]) * random.nextDouble();
-			this.platoon.add(new Truck(String.valueOf(i + 1), randomFuel));
-//			this.platoon.add(new Truck(String.valueOf(i + 1), null));
+//			this.platoon.add(new Truck(String.valueOf(i + 1), randomFuel));
+			this.platoon.add(new Truck(String.valueOf(i + 1), null));
 		}
 		DrivingThread dThread = new DrivingThread(this.platoon, duration);
 		Thread thread = new Thread(dThread);
@@ -219,10 +219,9 @@ class DrivingThread implements Runnable {
 				e.getStackTrace();
 			}
 
-			if (getDurationStatement()) {
-				printStatus(this.cPlatoon);
-			}
-
+//			if (getDurationStatement()) {
+//				printStatus(this.cPlatoon);
+//			}
 			for (int i = 0; i < this.cPlatoon.size(); i++) {
 				Truck currTruck = this.cPlatoon.get(i);
 
@@ -230,7 +229,7 @@ class DrivingThread implements Runnable {
 					Truck nextTruck = this.cPlatoon.get(j);
 
 //					if (getDurationStatement(currTruck, nextTruck)) {
-					if (getDurationStatement()) {
+					if (currTruck.getCurrentFuel() < nextTruck.getCurrentFuel() && getDurationStatement()) {
 						switchPos(this.cPlatoon);
 					}
 				}
