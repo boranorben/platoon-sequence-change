@@ -28,12 +28,13 @@ public class Platoon {
 	}
 
 	public static void main(String[] args) {
-		Scanner input = new Scanner(System.in);
-		System.out.print("Input a number of truck in a platoon: ");
-		int numTruck = Integer.parseInt(input.nextLine());
-		System.out.print("Input duration of switching: ");
-		String duration = input.nextLine();
-		new Platoon(numTruck, duration);
+		new Platoon(Integer.parseInt(args[0]), args[1]);
+//		Scanner input = new Scanner(System.in);
+//		System.out.print("Input a number of truck in a platoon: ");
+//		int numTruck = Integer.parseInt(input.nextLine());
+//		System.out.print("Input duration of switching: ");
+//		String duration = input.nextLine();
+//		new Platoon(numTruck, duration);
 
 //		for (int i = 2; i <= 6; i++) {
 //			for (int j = 0; j <= 4; j++) {
@@ -80,24 +81,27 @@ class DrivingThread implements Runnable {
 //	private boolean getDurationStatement(Truck currTruck, Truck nextTruck) {
 	private boolean getDurationStatement() {
 		boolean durationStatement;
-		if (this.duration.contains("1")) { // 1 hour
-			durationStatement = (getCurrTime() == Math.floor(getCurrTime()));
-		} else if (this.duration.contains("2")) { // 2 hours
+//		if (this.duration.contains("1")) { // 1 hour
+//			durationStatement = (getCurrTime() == Math.floor(getCurrTime()));
+//		} else if (this.duration.contains("2")) { // 2 hours
+//			durationStatement = (getCurrTime() == Math.floor(getCurrTime()) && Math.floor(getCurrTime()) % 2 == 0);
+//		} else if (this.duration.contains("3")) { // 30 mins
+//			durationStatement = ((roundTime(getCurrTime()) * 10) % 5 == 0);
+//		} else if (this.duration.contains("4")) { // 10 mins
+//			durationStatement = ((roundTime(getCurrTime()) * 10) % 1 == 0);
+//		} else {
+//			durationStatement = false;
+//		}
+		
+		if (this.duration.contains("1")) { // 2 hour
 			durationStatement = (getCurrTime() == Math.floor(getCurrTime()) && Math.floor(getCurrTime()) % 2 == 0);
+		} else if (this.duration.contains("2")) { // 1 hours
+			durationStatement = (getCurrTime() == Math.floor(getCurrTime()));
 		} else if (this.duration.contains("3")) { // 30 mins
 			durationStatement = ((roundTime(getCurrTime()) * 10) % 5 == 0);
-		} else if (this.duration.contains("4")) { // 10 mins
-			durationStatement = ((roundTime(getCurrTime()) * 10) % 1 == 0);
 		} else {
 			durationStatement = false;
 		}
-
-//		if (this.duration.contains("1")) {
-//			durationStatement = (getCurrTime() == Math.floor(getCurrTime()));
-//		} else {
-//			durationStatement = (getCurrTime() == Math.floor(getCurrTime())
-//					|| (roundTime(getCurrTime()) - 0.5) % 1 == 0);
-//		}
 
 //		if (this.duration.contains("1")) { // full rate
 //			durationStatement = (nextTruck.getCurrentFuel() - currTruck.getCurrentFuel()) >= currTruck.FUEL_CONSUMP * 100;
@@ -300,7 +304,7 @@ class DrivingThread implements Runnable {
 			distanceCnt++;
 		}
 //		printOrder(this.checkOrders);
-		System.out.println("---------------------------------------------------");
+//		System.out.println("---------------------------------------------------");
 
 		System.out.println("Are orders correct?: " + this.orders.equals(this.checkOrders));
 		System.out.printf("Distance %d km \n", this.distanceCnt - 1);
