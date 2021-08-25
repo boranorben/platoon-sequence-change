@@ -8,7 +8,7 @@ jar_exe:
 	jar cvfm $(JARFILE) $(MANIFEST) -C $(OUTPUT) .
 
 jar:
-	java -jar $(JARFILE)
+	java -jar $(JARFILE) $(numTruck) $(duration)
 
 clean:
-	rm -rf $(OUTPUT) $(JARFILE)
+	rm -rf $(OUTPUT) $(JARFILE) *.dat
