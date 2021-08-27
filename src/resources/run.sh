@@ -4,9 +4,13 @@
 make
 
 platoonlist=(2 3 4 5 6)
+durationlist=(30 60 120)
 
 for platoon in ${platoonlist[@]}
 do
-	make numTruck=$platoon duration=2 jar > temp-$platoon.dat
+	for duration in ${durationlist[@]}
+	do
+		make numTruck=$platoon duration=$duration jar >> temp-$platoon.dat
+	done
 done
 
