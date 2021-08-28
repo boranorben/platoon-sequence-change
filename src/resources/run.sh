@@ -1,16 +1,17 @@
-#!/bin/sh
-
-# Create RUNNABLE JAR file and run
+# Create RUNNABLE JAR file
 make
 
-platoonlist=(2 3 4 5 6)
 durationlist=(30 60 120)
+platoonlist=(2 3 4 5 6)
 
-for platoon in ${platoonlist[@]}
+# Run simulation
+for duration in ${durationlist[@]}
 do
-	for duration in ${durationlist[@]}
+	for platoon in ${platoonlist[@]}
 	do
-		make numTruck=$platoon duration=$duration jar >> temp-$platoon.dat
+		make numTruck=$platoon duration=$duration jar >> out-$duration.dat
 	done
 done
 
+# Analysis
+cat out* | grep -Eo '[0-9]{1,4}' | tr '\n' ' ' > out-temp.dat
