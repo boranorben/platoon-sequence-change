@@ -5,13 +5,23 @@ durationlist=(30 60 120)
 platoonlist=(2 3 4 5 6)
 
 # Run simulation
-for duration in ${durationlist[@]}
+for platoon in ${platoonlist[@]}
 do
-	for platoon in ${platoonlist[@]}
+	for duration in ${durationlist[@]}
 	do
-		make numTruck=$platoon duration=$duration jar >> out-$duration.dat
+		make numTruck=$platoon duration=$duration jar >> out-$platoon.dat
 	done
 done
 
 # Analysis
-cat out* | grep -Eo '[0-9]{1,4}' | tr '\n' ' ' > out-temp.dat
+cat out* | grep old | awk '{print $2, $3, $4, $5}' > with.dat
+cat out* | grep new | awk '{print $2, $3, $4, $5}' > without.dat
+
+for duration in ${durationlist[@]}
+do
+	cat with.dat | grep $duration | awk '{print $1, $3, $4}' > with-$duration.dat
+	cat without.dat | grep $duration | awk '{print $1, $3, $4}' > without-$duration.dat
+done
+
+rm -rf with.dat without.dat out*
+cat plot.gnu | gnuplot

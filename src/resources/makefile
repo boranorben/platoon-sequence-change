@@ -11,4 +11,4 @@ jar:
 	java -jar $(JARFILE) $(numTruck) $(duration)
 
 clean:
-	rm -rf $(OUTPUT) $(JARFILE) *.dat
+	rm -rf $(OUTPUT) $(JARFILE) *.dat *.pdf

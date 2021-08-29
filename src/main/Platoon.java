@@ -259,9 +259,12 @@ class DrivingThread implements Runnable {
 			distanceCnt++;
 		}
 
-		System.out.printf("Distance %d km \n", this.distanceCnt - 1);
-		// System.out.printf("Time %.0f hr \n", getCurrTime());
-		System.out.println("# of switching without algorithm " + getSwitchCnt(this.orders));
+//		System.out.printf("Distance %d km \n", this.distanceCnt - 1);
+//		System.out.printf("Time %.0f hr \n", getCurrTime());
+//		System.out.println("# of switching without algorithm " + getSwitchCnt(this.orders));
+
+		System.out.printf("old %d %s %d %d \n", this.platoon.size(), this.duration, this.distanceCnt - 1,
+				getSwitchCnt(this.orders));
 
 		initialParams();
 		sortOrders();
@@ -319,8 +322,11 @@ class DrivingThread implements Runnable {
 //		System.out.printf("Distance with algorithm %d km \n", this.distanceCnt - 1);
 //		System.out.printf("Time %.0f hr \n", getCurrTime());
 //		System.out.println("# of switching " + this.switchCnt);
-		System.out.println("# of switching with algorithm " + getSwitchCnt(this.checkOrders));
-		System.out.println("---------------------------------------------------");
+//		System.out.println("# of switching with algorithm " + getSwitchCnt(this.checkOrders));
+//		System.out.println("---------------------------------------------------");
+
+		System.out.printf("new %d %s %d %d \n", this.platoon.size(), this.duration, this.distanceCnt - 1,
+				getSwitchCnt(this.checkOrders));
 	}
 
 }
