@@ -14,8 +14,8 @@ do
 done
 
 # Analysis
-cat out* | grep old | awk '{print $2, $3, $4, $5}' > with.dat
-cat out* | grep new | awk '{print $2, $3, $4, $5}' > without.dat
+cat out* | grep old | awk '{print $2, $3, $4, $5}' > without.dat
+cat out* | grep new | awk '{print $2, $3, $4, $5}' > with.dat
 
 for duration in ${durationlist[@]}
 do
