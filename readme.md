@@ -1,7 +1,6 @@
 ## How to run the simulation
-------------------
 
-Clone this project to your local repository and run this commands.
+Clone this project to your local repository and run these commands.
 
 ```
 cd ./sequence-change-platoon/src/resources
