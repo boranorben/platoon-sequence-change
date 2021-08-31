@@ -23,5 +23,5 @@ do
 	cat without.dat | grep $duration | awk '{print $1, $3, $4}' > without-$duration.dat
 done
 
-rm -rf with.dat without.dat out*
 cat plot.gnu | gnuplot
+rm -rf *.dat

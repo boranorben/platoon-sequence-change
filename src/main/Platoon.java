@@ -16,9 +16,9 @@ public class Platoon {
 			this.platoon.add(new Truck(String.valueOf(i + 1), null));
 
 			// if random intial fuel
-			// Random random = new Random();
-			// double randomFuel = RANGE[0] + (RANGE[1] - RANGE[0]) * random.nextDouble();
-			// this.platoon.add(new Truck(String.valueOf(i + 1), randomFuel));
+//			Random random = new Random();
+//			double randomFuel = RANGE[0] + (RANGE[1] - RANGE[0]) * random.nextDouble();
+//			this.platoon.add(new Truck(String.valueOf(i + 1), randomFuel));
 		}
 		DrivingThread dThread = new DrivingThread(this.platoon, duration);
 		Thread thread = new Thread(dThread);
