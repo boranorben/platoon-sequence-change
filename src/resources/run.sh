@@ -35,5 +35,5 @@ do
 done
 
 cat plot-sts-cnt.gnu | gnuplot
-cat plot-short-interval-dist.gnu | gnuplot
+cat plot-short-interval.gnu | gnuplot
 rm -rf *.dat
