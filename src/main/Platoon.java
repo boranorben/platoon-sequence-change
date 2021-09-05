@@ -263,7 +263,7 @@ class DrivingThread implements Runnable {
 //		System.out.printf("Time %.0f hr \n", getCurrTime());
 //		System.out.println("# of switching without algorithm " + getSwitchCnt(this.orders));
 
-		System.out.printf("old %d %s %d %d \n", this.platoon.size(), this.duration, this.distanceCnt - 1,
+		System.out.printf("wo %d %s %d %d \n", this.platoon.size(), this.duration, this.distanceCnt - 1,
 				getSwitchCnt(this.orders));
 
 		initialParams();
@@ -325,7 +325,7 @@ class DrivingThread implements Runnable {
 //		System.out.println("# of switching with algorithm " + getSwitchCnt(this.checkOrders));
 //		System.out.println("---------------------------------------------------");
 
-		System.out.printf("new %d %s %d %d \n", this.platoon.size(), this.duration, this.distanceCnt - 1,
+		System.out.printf("with %d %s %d %d \n", this.platoon.size(), this.duration, this.distanceCnt - 1,
 				getSwitchCnt(this.checkOrders));
 	}
 
