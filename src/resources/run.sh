@@ -14,26 +14,23 @@ do
 done
 
 # Analysis
-cat output* | grep -e 'wo.* 30' -e 'wo.* 60' -e 'wo.* 120' | awk '{print $2, $3, $4, $5}' > without-sts-cnt.dat
-cat output* | grep -e 'with.* 30' -e 'with.* 60' -e 'with.* 120' | awk '{print $2, $3, $4, $5}' > with-sts-cnt.dat
-cat output* | grep -e 'wo.* 10' -e 'wo.* 20' -e 'wo.* 30' -e 'wo.* 40' -e 'wo.* 50' -e 'wo.* 60' | awk '{print $2, $3, $4, $5}' > short-interval-dist.dat
-cat output* | grep -e 'with.* 10' -e 'with.* 20' -e 'with.* 30' -e 'with.* 40' -e 'with.* 50' -e 'with.* 60' | grep -v '3910 20' | awk '{print $2, $3, $4, $5}' > short-interval-cnt.dat
+cat output* | grep wo | awk '{print $2, $3, $4, $5}' > wo-sts.dat
+cat output* | grep with | awk '{print $2, $3, $4, $5}' > with-sts.dat
 
 for duration in ${durationlist[@]}
 do
 	if (( $duration % 30 == 0 ))
-	then	
-		cat without-sts-cnt.dat | grep $duration | awk '{print $1, $3, $4}' > without-sts-cnt-$duration.dat
-		cat with-sts-cnt.dat | grep $duration | awk '{print $1, $3, $4}' > with-sts-cnt-$duration.dat
+	then
+		cat wo-sts.dat | grep $duration | awk '{print $1, $3, $4}' > wo-sts-$duration.dat
+		cat with-sts.dat | grep $duration | grep -v "30$" | awk '{print $1, $3, $4}' > with-sts-$duration.dat
 	fi
 done
 
 for platoon in ${platoonlist[@]}
 do
-	cat short-interval-dist.dat | grep "^$platoon" | awk '{print $2, $3, $4}' > short-interval-dist-$platoon.dat
-	cat short-interval-cnt.dat | grep "^$platoon" | awk '{print $2, $3, $4}' > short-interval-cnt-$platoon.dat
+	cat with-sts.dat | grep "^$platoon" | grep -v 120 | awk '{print $2, $3, $4}' > short-ts-$platoon.dat
 done
 
 cat plot-sts-cnt.gnu | gnuplot
-cat plot-short-interval.gnu | gnuplot
+cat plot-short-ts.gnu | gnuplot
 rm -rf *.dat
