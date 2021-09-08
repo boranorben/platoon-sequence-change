@@ -1,5 +1,5 @@
 set term pdfcairo size 8.5,8.5 font "Times-New-Roman, 25"
-set xlabel "Number of trucks in a platoon (n)"
+set xlabel "Number of Trucks in the Platoon (n)"
 set ylabel "Position Change Count"
 set xtics 2,1,6
 set yrange [0:100]
