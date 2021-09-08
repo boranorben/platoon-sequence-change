@@ -120,14 +120,6 @@ class DrivingThread implements Runnable {
 		return durationStatement;
 	}
 
-	private void setOrder() {
-		if (this.duration.equals("60")) {
-			this.order = this.orders.get((int) this.getCurrTime());
-		} else {
-			this.order = this.orders.get(this.index);
-		}
-	}
-
 	private ArrayList<Truck> clonePlatoon(ArrayList<Truck> rPlatoon) {
 		ArrayList<Truck> cPlatoon = new ArrayList<Truck>();
 		Iterator<Truck> iterator = rPlatoon.iterator();
@@ -225,25 +217,33 @@ class DrivingThread implements Runnable {
 	@Override
 	public void run() {
 
+		int numTruck = this.cPlatoon.size();
 		while (this.isDriving) {
 			try {
-				Thread.sleep(1L);
+				Thread.sleep(0L);
 			} catch (Exception e) {
 				e.getStackTrace();
 			}
 
-//			if (getDurationStatement()) {
+//			if (getCurrTime() != 0.0 && getDurationStatement()) {
+//				switchPos(this.cPlatoon);
 //				printStatus(this.cPlatoon);
 //			}
 
-			for (int i = 0; i < this.cPlatoon.size(); i++) {
+			for (int i = 0; i < numTruck; i++) {
 				Truck currTruck = this.cPlatoon.get(i);
 
-				for (int j = i + 1; j < this.cPlatoon.size(); j++) {
-					Truck nextTruck = this.cPlatoon.get(j);
+				for (int j = i + 1; j < numTruck; j++) {
 
-					if (currTruck.getCurrentFuel() < nextTruck.getCurrentFuel() && getDurationStatement()) {
-						switchPos(this.cPlatoon);
+					if (getDurationStatement()) {
+						if (((numTruck % 3 == 0) && j == numTruck - 2) || ((numTruck % 3 != 0) && j == numTruck - 1)) {
+							Collections.swap(this.cPlatoon, 0, j);
+						}
+						if (numTruck != 2) {
+							Collections.swap(this.cPlatoon, i, j);
+						} else {
+							break;
+						}
 					}
 				}
 				currTruck.fuelCal(getConsumpReduce(i));
@@ -258,6 +258,8 @@ class DrivingThread implements Runnable {
 			}
 			distanceCnt++;
 		}
+//		printOrder(this.orders);
+//		System.out.println("---------------------------------------------------");
 
 //		System.out.printf("Distance %d km \n", this.distanceCnt - 1);
 //		System.out.printf("Time %.0f hr \n", getCurrTime());
@@ -268,12 +270,10 @@ class DrivingThread implements Runnable {
 
 		initialParams();
 		sortOrders();
-//		printOrder(this.orders);
-//		System.out.println("---------------------------------------------------");
 
 		while (isDriving) {
 			try {
-				Thread.sleep(1L);
+				Thread.sleep(0L);
 			} catch (Exception e) {
 				e.getStackTrace();
 			}
@@ -281,13 +281,14 @@ class DrivingThread implements Runnable {
 			if (this.index > this.orders.size() - 1) {
 				stopDriving();
 				break;
+			} else {
+				this.order = this.orders.get(this.index);
 			}
 
 //			if (getDurationStatement()) {
 //				printStatus(this.platoon);
 //			}
 
-			setOrder();
 			for (int i = 0; i < this.platoon.size(); i++) {
 				Truck currTruck = this.platoon.get(i);
 
