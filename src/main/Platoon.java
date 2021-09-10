@@ -8,17 +8,19 @@ import java.util.Scanner;
 
 public class Platoon {
 	private ArrayList<Truck> platoon;
-	private double[] RANGE = { 1135.62, 1324.89 }; // 300 gallons to 350 gallons
+	private double[] RANGE = { 946.35, 1135.62 }; // 250 gallons to 300 gallons
 
-	public Platoon(int numTruck, String duration) {
+	public Platoon(int numTruck, String duration, boolean isRand) {
 		this.platoon = new ArrayList<Truck>();
-		for (int i = 0; i < numTruck; i++) {
-			this.platoon.add(new Truck(String.valueOf(i + 1), null));
 
-			// if random intial fuel
-//			Random random = new Random();
-//			double randomFuel = RANGE[0] + (RANGE[1] - RANGE[0]) * random.nextDouble();
-//			this.platoon.add(new Truck(String.valueOf(i + 1), randomFuel));
+		for (int i = 0; i < numTruck; i++) {
+			if (isRand) {
+				Random random = new Random();
+				double randomFuel = RANGE[0] + (RANGE[1] - RANGE[0]) * random.nextDouble();
+				this.platoon.add(new Truck(String.valueOf(i + 1), randomFuel));
+			} else {
+				this.platoon.add(new Truck(String.valueOf(i + 1), null));
+			}
 		}
 		DrivingThread dThread = new DrivingThread(this.platoon, duration);
 		Thread thread = new Thread(dThread);
@@ -38,7 +40,7 @@ public class Platoon {
 //		new Platoon(numTruck, duration);
 
 		// for runnable jar file
-		new Platoon(Integer.parseInt(args[0]), args[1]);
+		new Platoon(Integer.parseInt(args[0]), args[1], Boolean.valueOf(args[2]));
 	}
 }
 
@@ -234,17 +236,24 @@ class DrivingThread implements Runnable {
 				Truck currTruck = this.cPlatoon.get(i);
 
 				for (int j = i + 1; j < numTruck; j++) {
+					Truck nextTruck = this.cPlatoon.get(j);
 
-					if (getDurationStatement()) {
-						if (((numTruck % 3 == 0) && j == numTruck - 2) || ((numTruck % 3 != 0) && j == numTruck - 1)) {
-							Collections.swap(this.cPlatoon, 0, j);
-						}
-						if (numTruck != 2) {
-							Collections.swap(this.cPlatoon, i, j);
-						} else {
-							break;
-						}
+					if (currTruck.getCurrentFuel() < nextTruck.getCurrentFuel() && getDurationStatement()) {
+						switchPos(this.cPlatoon);
 					}
+
+					// round robin
+//					if (getDurationStatement()) {
+//						if (((numTruck % 3 == 0) && j == numTruck - 2) || ((numTruck % 3 != 0) && j == numTruck - 1)) {
+//							Collections.swap(this.cPlatoon, 0, j);
+//						}
+//						if (numTruck != 2) {
+//							Collections.swap(this.cPlatoon, i, j);
+//						} else {
+//							break;
+//						}
+//					}
+
 				}
 				currTruck.fuelCal(getConsumpReduce(i));
 				if (currTruck.getCurrentFuel() <= 0) {
