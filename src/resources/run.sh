@@ -26,7 +26,7 @@ done
 # Analysis
 cat output* | grep wo | awk '{print $2, $3, $4, $5}' > wo-sts.dat
 cat output* | grep with | awk '{print $2, $3, $4, $5}' > with-sts.dat
-cat rand* | grep with | awk '{print $2, $3, $4, $5}' > rand.dat
+cat rand* | grep with | awk '{print $2, $3, $4, $5, $6}' > rand.dat
 
 for duration in ${durationlist[@]}
 do
@@ -35,7 +35,7 @@ do
 		cat wo-sts.dat | grep $duration | awk '{print $1, $3, $4}' > wo-sts-$duration.dat
 		cat with-sts.dat | grep $duration | grep -v "30$" | awk '{print $1, $3, $4}' > with-sts-$duration.dat
 
-		cat rand.dat | grep $duration | awk '{print $1, $3, $4}' > rand-$duration.dat
+		cat rand.dat | grep " $duration " | awk '{print $1, $3, $4, $5}' > rand-$duration.dat
 		python3 average.py < rand-$duration.dat > rand-avg-$duration.dat
 	fi
 done
@@ -45,6 +45,10 @@ do
 	cat with-sts.dat | grep "^$platoon" | grep -v 120 | awk '{print $2, $3, $4}' > short-ts-$platoon.dat
 done
 
+# Plot graphs
 cat plot-sts-cnt.gnu | gnuplot
 cat plot-short-ts.gnu | gnuplot
 cat plot-rand.gnu | gnuplot
+
+# Delete all data files
+# rm -rf *.dat
