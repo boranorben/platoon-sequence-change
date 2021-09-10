@@ -4,18 +4,29 @@ make
 platoonlist=(2 3 4 5 6)
 durationlist=(10 20 30 40 50 60 120)
 
-# Run simulation
 for platoon in ${platoonlist[@]}
 do
 	for duration in ${durationlist[@]}
 	do
-		make numTruck=$platoon duration=$duration jar >> output-$platoon-platoon.dat
+		# Run simulation with equal initial fuel
+		make numTruck=$platoon duration=$duration isRand='false' jar >> output-$platoon.dat
+
+		if (( $duration % 30 == 0 ))
+		then
+			for (( i = 0; i < 5; i++ ))
+			do
+				# Run simulation with random initial fuel
+				make numTruck=$platoon duration=$duration isRand='true' jar >> rand-output-$platoon.dat
+			done
+		fi
+
 	done
 done
 
 # Analysis
 cat output* | grep wo | awk '{print $2, $3, $4, $5}' > wo-sts.dat
 cat output* | grep with | awk '{print $2, $3, $4, $5}' > with-sts.dat
+cat rand* | grep with | awk '{print $2, $3, $4, $5}' > rand.dat
 
 for duration in ${durationlist[@]}
 do
@@ -23,6 +34,9 @@ do
 	then
 		cat wo-sts.dat | grep $duration | awk '{print $1, $3, $4}' > wo-sts-$duration.dat
 		cat with-sts.dat | grep $duration | grep -v "30$" | awk '{print $1, $3, $4}' > with-sts-$duration.dat
+
+		cat rand.dat | grep $duration | awk '{print $1, $3, $4}' > rand-$duration.dat
+		python3 average.py < rand-$duration.dat > rand-avg-$duration.dat
 	fi
 done
 
@@ -33,4 +47,4 @@ done
 
 cat plot-sts-cnt.gnu | gnuplot
 cat plot-short-ts.gnu | gnuplot
-rm -rf *.dat
+cat plot-rand.gnu | gnuplot

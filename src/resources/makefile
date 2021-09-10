@@ -8,7 +8,7 @@ jar_exe:
 	jar cvfm $(JARFILE) $(MANIFEST) -C $(OUTPUT) .
 
 jar:
-	java -jar $(JARFILE) $(numTruck) $(duration)
+	java -jar $(JARFILE) $(numTruck) $(duration) $(isRand)
 
 clean:
 	rm -rf $(OUTPUT) $(JARFILE) *.dat *.pdf

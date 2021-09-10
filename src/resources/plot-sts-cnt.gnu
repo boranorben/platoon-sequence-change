@@ -3,7 +3,7 @@ set xlabel "Number of Trucks in the Platoon (n)"
 set ylabel "Position Change Count"
 set xtics 2,1,6
 set yrange [0:100]
-set key top left
+set key at 6,90
 set grid
 
 set output "wo-sts-cnt.pdf"

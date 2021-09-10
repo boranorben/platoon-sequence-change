@@ -1,7 +1,7 @@
 set term pdfcairo enhanced size 8.5,8.5 font "Times-New-Roman, 25"
 set xlabel "Size of Time Slot, {/Symbol d} (min)"
 set grid
-set key outside
+set key center right
 
 set ylabel "Total Distance (km)"
 set yrange [0:4000]
@@ -13,8 +13,7 @@ plot "short-ts-2.dat" using 1:2 w lp lw 2 title "2 Trucks",\
 "short-ts-6.dat" using 1:2 w lp lw 2 title "6 Trucks"
 
 set ylabel "Position Change Count"
-set yrange [0:5]
-set ytics 0,1,5
+set yrange [0:250]
 set output "short-cnt.pdf"
 plot "short-ts-2.dat" using 1:3 w lp lw 2 title "2 Trucks",\
 "short-ts-3.dat" using 1:3 w lp lw 2 title "3 Trucks",\
