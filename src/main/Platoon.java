@@ -37,7 +37,7 @@ public class Platoon {
 //		int numTruck = Integer.parseInt(input.nextLine());
 //		System.out.print("Input minutes of duration switching: ");
 //		String duration = input.nextLine();
-//		new Platoon(numTruck, duration);
+//		new Platoon(numTruck, duration, true);
 
 		// for runnable jar file
 		new Platoon(Integer.parseInt(args[0]), args[1], Boolean.valueOf(args[2]));
@@ -131,6 +131,16 @@ class DrivingThread implements Runnable {
 			cPlatoon.add(cTruck);
 		}
 		return cPlatoon;
+	}
+
+	private double getOriDist(ArrayList<Truck> platoon) {
+		double tempFuel = 0.0;
+		for (Truck truck : platoon) {
+			tempFuel += truck.getCurrentFuel();
+		}
+
+		return ((tempFuel / platoon.size())
+				/ (platoon.get(0).FUEL_CONSUMP - ((this.CONSUMP_REDUCE[0] / 100) * platoon.get(0).FUEL_CONSUMP)));
 	}
 
 	private void switchPos(ArrayList<Truck> platoon) {
@@ -274,12 +284,14 @@ class DrivingThread implements Runnable {
 //		System.out.printf("Time %.0f hr \n", getCurrTime());
 //		System.out.println("# of switching without algorithm " + getSwitchCnt(this.orders));
 
-		System.out.printf("wo %d %s %d %d \n", this.platoon.size(), this.duration, this.distanceCnt - 1,
+		int tempDist = this.distanceCnt;
+		System.out.printf("wo %d %s %d %d \n", this.cPlatoon.size(), this.duration, this.distanceCnt - 1,
 				getSwitchCnt(this.orders));
 
 		initialParams();
 		sortOrders();
 
+		double oriDist = getOriDist(this.platoon);
 		while (isDriving) {
 			try {
 				Thread.sleep(0L);
@@ -335,8 +347,8 @@ class DrivingThread implements Runnable {
 //		System.out.println("# of switching with algorithm " + getSwitchCnt(this.checkOrders));
 //		System.out.println("---------------------------------------------------");
 
-		System.out.printf("with %d %s %d %d \n", this.platoon.size(), this.duration, this.distanceCnt - 1,
-				getSwitchCnt(this.checkOrders));
+		System.out.printf("with %d %s %d %d %.0f\n", this.platoon.size(), this.duration, tempDist,
+				getSwitchCnt(this.checkOrders), oriDist);
 	}
 
 }
