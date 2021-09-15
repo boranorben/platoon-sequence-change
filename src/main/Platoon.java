@@ -3,21 +3,18 @@ package main;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.Random;
 import java.util.Scanner;
 
 public class Platoon {
 	private ArrayList<Truck> platoon;
-	private double[] RANGE = { 946.35, 1135.62 }; // 250 gallons to 300 gallons
 
-	public Platoon(int numTruck, String duration, boolean isRand) {
+	public Platoon(int numTruck, String duration, String rand) {
 		this.platoon = new ArrayList<Truck>();
+		String[] randList = rand.split(",");
 
 		for (int i = 0; i < numTruck; i++) {
-			if (isRand) {
-				Random random = new Random();
-				double randomFuel = RANGE[0] + (RANGE[1] - RANGE[0]) * random.nextDouble();
-				this.platoon.add(new Truck(String.valueOf(i + 1), randomFuel));
+			if (randList.length > 1) {
+				this.platoon.add(new Truck(String.valueOf(i + 1), Double.parseDouble(randList[i])));
 			} else {
 				this.platoon.add(new Truck(String.valueOf(i + 1), null));
 			}
@@ -40,7 +37,7 @@ public class Platoon {
 //		new Platoon(numTruck, duration, true);
 
 		// for runnable jar file
-		new Platoon(Integer.parseInt(args[0]), args[1], Boolean.valueOf(args[2]));
+		new Platoon(Integer.parseInt(args[0]), args[1], args[2]);
 	}
 }
 
@@ -284,7 +281,6 @@ class DrivingThread implements Runnable {
 //		System.out.printf("Time %.0f hr \n", getCurrTime());
 //		System.out.println("# of switching without algorithm " + getSwitchCnt(this.orders));
 
-		int tempDist = this.distanceCnt;
 		System.out.printf("wo %d %s %d %d \n", this.cPlatoon.size(), this.duration, this.distanceCnt - 1,
 				getSwitchCnt(this.orders));
 
@@ -347,7 +343,7 @@ class DrivingThread implements Runnable {
 //		System.out.println("# of switching with algorithm " + getSwitchCnt(this.checkOrders));
 //		System.out.println("---------------------------------------------------");
 
-		System.out.printf("with %d %s %d %d %.0f\n", this.platoon.size(), this.duration, tempDist,
+		System.out.printf("with %d %s %d %d %.0f\n", this.platoon.size(), this.duration, this.distanceCnt,
 				getSwitchCnt(this.checkOrders), oriDist);
 	}
 
