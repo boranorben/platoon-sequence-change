@@ -51,4 +51,4 @@ cat plot-short-ts.gnu | gnuplot
 cat plot-rand.gnu | gnuplot
 
 # Delete all data files
-# rm -rf *.dat
+rm -rf *.dat
