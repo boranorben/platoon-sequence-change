@@ -6,20 +6,30 @@ durationlist=(10 20 30 40 50 60 120)
 
 for platoon in ${platoonlist[@]}
 do
+
+	# Random fuel
+	for (( i = 0; i < 5; i++ ))
+	do
+		randnum=""
+		for (( j = 0; j < $platoon; j++ ))
+		do
+			# 250 gallons to 300 gallons	
+			rand=$(python -c 'import random; print("%.2f" % random.uniform(946.35, 1135.62));')
+			randnum+="$rand,"
+		done
+	done
+
 	for duration in ${durationlist[@]}
 	do
+	
 		# Run simulation with equal initial fuel
-		make numTruck=$platoon duration=$duration isRand='false' jar >> output-$platoon.dat
+		make numTruck=$platoon duration=$duration randList='null' jar >> output-$platoon.dat
 
 		if (( $duration % 30 == 0 ))
 		then
-			for (( i = 0; i < 5; i++ ))
-			do
-				# Run simulation with random initial fuel
-				make numTruck=$platoon duration=$duration isRand='true' jar >> rand-output-$platoon.dat
-			done
+			# Run simulation with random initial fuel
+			make numTruck=$platoon duration=$duration randList=$randnum jar >> rand-output-$platoon.dat
 		fi
-
 	done
 done
 
@@ -50,5 +60,5 @@ cat plot-sts-cnt.gnu | gnuplot
 cat plot-short-ts.gnu | gnuplot
 cat plot-rand.gnu | gnuplot
 
-# Delete all data files
+# # Delete all data files
 rm -rf *.dat

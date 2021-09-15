@@ -5,7 +5,7 @@ set grid
 
 set style fill solid border -1
 set ylabel "Average Increased Driving Distance (%)"
-set yrange [0:8]
+set yrange [0:9]
 set output "rand-dist.pdf"
 plot "rand-avg-120.dat" using 2:xtic(1) w histogram title "2 Hours",\
 "rand-avg-60.dat" using 2:xtic(1) w histogram title "1 Hour",\
@@ -13,7 +13,7 @@ plot "rand-avg-120.dat" using 2:xtic(1) w histogram title "2 Hours",\
 
 set ylabel "Average Position Change Count"
 set xtics 2,1,6
-set yrange [0:20]
+set yrange [0:30]
 set output "rand-cnt.pdf"
 plot "rand-avg-120.dat" using 1:3 w lp lw 2 title "2 Hours",\
 "rand-avg-60.dat" using 1:3 w lp lw 2 title "1 Hour",\
