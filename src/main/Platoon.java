@@ -34,9 +34,9 @@ public class Platoon {
 //		int numTruck = Integer.parseInt(input.nextLine());
 //		System.out.print("Input minutes of duration switching: ");
 //		String duration = input.nextLine();
-//		new Platoon(numTruck, duration, true);
+//		new Platoon(numTruck, duration, null);
 
-		// for runnable jar file
+//		 for runnable jar file
 		new Platoon(Integer.parseInt(args[0]), args[1], args[2]);
 	}
 }
