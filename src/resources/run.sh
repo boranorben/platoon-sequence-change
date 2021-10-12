@@ -3,6 +3,7 @@ make
 
 platoonlist=(2 3 4 5 6)
 durationlist=(10 20 30 40 50 60 120)
+initialfuel=(100 150 200 250 300)
 
 for platoon in ${platoonlist[@]}
 do
@@ -34,6 +35,19 @@ do
 	done
 done
 
+# Run simulation with RR
+for duration in ${durationlist[@]}
+do
+	if (( $duration % 30 == 0 ))
+	then
+		for fuel in ${initialfuel[@]}
+		do
+			make numTruck=6 duration=$duration randList=$fuel jar >> rr-output.dat
+			cat rr-output.dat | grep with | grep " $duration " | awk '{print $7, $5}' > rr-$duration.dat
+		done
+	fi
+done
+
 # Analysis
 cat output* | grep wo | awk '{print $2, $3, $4, $5}' > wo-sts.dat
 cat output* | grep with | awk '{print $2, $3, $4, $5}' > with-sts.dat
@@ -56,10 +70,11 @@ do
 	cat with-sts.dat | grep "^$platoon" | grep -v 120 | awk '{print $2, $3, $4}' > short-ts-$platoon.dat
 done
 
-# Plot graphs
+# # Plot graphs
 cat plot-sts-cnt.gnu | gnuplot
 cat plot-short-ts.gnu | gnuplot
 cat plot-rand.gnu | gnuplot
+# cat plot-rr.gnu | gnuplot
 
 # # Delete all data files
 rm -rf *.dat
