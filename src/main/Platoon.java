@@ -13,13 +13,16 @@ public class Platoon {
 		String[] randList = rand.split(",");
 
 		for (int i = 0; i < numTruck; i++) {
-			if (randList.length > 1) {
+			if (rand.equals("null")) {
+				this.platoon.add(new Truck(String.valueOf(i + 1), null));
+			} else if (randList.length > 1) {
 				this.platoon.add(new Truck(String.valueOf(i + 1), Double.parseDouble(randList[i])));
 			} else {
-				this.platoon.add(new Truck(String.valueOf(i + 1), null));
+				this.platoon.add(new Truck(String.valueOf(i + 1), Double.parseDouble(rand) * 3.785));
 			}
 		}
-		DrivingThread dThread = new DrivingThread(this.platoon, duration);
+
+		DrivingThread dThread = new DrivingThread(this.platoon, duration, rand);
 		Thread thread = new Thread(dThread);
 		thread.start();
 	}
@@ -34,9 +37,9 @@ public class Platoon {
 //		int numTruck = Integer.parseInt(input.nextLine());
 //		System.out.print("Input minutes of duration switching: ");
 //		String duration = input.nextLine();
-//		new Platoon(numTruck, duration, null);
+//		new Platoon(numTruck, duration, "null");
 
-//		 for runnable jar file
+		// for runnable jar file
 		new Platoon(Integer.parseInt(args[0]), args[1], args[2]);
 	}
 }
@@ -51,16 +54,18 @@ class DrivingThread implements Runnable {
 	private ArrayList<String> orders;
 	private ArrayList<String> checkOrders;
 	private String order;
+	private double initFuel;
 
 	private final double[] CONSUMP_REDUCE = { 4.3, 10.0, 14.0 };
 	private final double VELOSITY = 85.0; // 85 km/hour
 
-	public DrivingThread(ArrayList<Truck> platoon, String duration) {
+	public DrivingThread(ArrayList<Truck> platoon, String duration, String rand) {
 		this.platoon = platoon;
 		this.cPlatoon = platoon;
 		this.duration = duration;
 		this.orders = new ArrayList<String>();
 		this.checkOrders = new ArrayList<String>();
+		this.initFuel = Double.parseDouble(rand);
 
 		this.cPlatoon = clonePlatoon(this.platoon);
 
@@ -235,8 +240,13 @@ class DrivingThread implements Runnable {
 			}
 
 //			if (getCurrTime() != 0.0 && getDurationStatement()) {
-//				switchPos(this.cPlatoon);
 //				printStatus(this.cPlatoon);
+//			}
+
+			// round robin
+//			if (getDurationStatement()) {
+//				this.cPlatoon.add(this.cPlatoon.get(0));
+//				this.cPlatoon.remove(0);
 //			}
 
 			for (int i = 0; i < numTruck; i++) {
@@ -248,19 +258,6 @@ class DrivingThread implements Runnable {
 					if (currTruck.getCurrentFuel() < nextTruck.getCurrentFuel() && getDurationStatement()) {
 						switchPos(this.cPlatoon);
 					}
-
-					// round robin
-//					if (getDurationStatement()) {
-//						if (((numTruck % 3 == 0) && j == numTruck - 2) || ((numTruck % 3 != 0) && j == numTruck - 1)) {
-//							Collections.swap(this.cPlatoon, 0, j);
-//						}
-//						if (numTruck != 2) {
-//							Collections.swap(this.cPlatoon, i, j);
-//						} else {
-//							break;
-//						}
-//					}
-
 				}
 				currTruck.fuelCal(getConsumpReduce(i));
 				if (currTruck.getCurrentFuel() <= 0) {
@@ -343,8 +340,8 @@ class DrivingThread implements Runnable {
 //		System.out.println("# of switching with algorithm " + getSwitchCnt(this.checkOrders));
 //		System.out.println("---------------------------------------------------");
 
-		System.out.printf("with %d %s %d %d %.0f\n", this.platoon.size(), this.duration, this.distanceCnt,
-				getSwitchCnt(this.checkOrders), oriDist);
+		System.out.printf("with %d %s %d %d %.0f %.2f\n", this.platoon.size(), this.duration, this.distanceCnt,
+				getSwitchCnt(this.checkOrders), oriDist, this.initFuel);
 	}
 
 }
