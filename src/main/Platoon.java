@@ -65,11 +65,16 @@ class DrivingThread implements Runnable {
 		this.duration = duration;
 		this.orders = new ArrayList<String>();
 		this.checkOrders = new ArrayList<String>();
-		this.initFuel = Double.parseDouble(rand);
 
 		this.cPlatoon = clonePlatoon(this.platoon);
 
 		initialParams();
+
+		if (rand.equals("null") || rand.length() > 1) {
+			this.initFuel = this.platoon.get(0).getCurrentFuel();
+		} else {
+			this.initFuel = Double.parseDouble(rand);
+		}
 	}
 
 	private void initialParams() {
@@ -254,7 +259,6 @@ class DrivingThread implements Runnable {
 
 				for (int j = i + 1; j < numTruck; j++) {
 					Truck nextTruck = this.cPlatoon.get(j);
-
 					if (currTruck.getCurrentFuel() < nextTruck.getCurrentFuel() && getDurationStatement()) {
 						switchPos(this.cPlatoon);
 					}
