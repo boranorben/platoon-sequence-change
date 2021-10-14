@@ -1,5 +1,5 @@
 set term pdfcairo size 8.5,8.5 font "Times-New-Roman, 25"
-set xlabel "Initial Fuels F(0)"
+set xlabel "Initial Fuels in Gallon (F(0))"
 set grid
 
 set ylabel "Position Change Count"
