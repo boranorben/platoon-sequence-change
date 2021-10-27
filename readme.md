@@ -7,7 +7,7 @@ cd ./sequence-change-platoon/src/resources
 bash run.sh
 ```
 
-After the simulation ends, you will get six simulation results in .pdf files described as follows:
+After the simulation ends, you will get seven simulation results in .pdf files described as follows:
 
 | Filename | Description |
 | ------ | ------ |
@@ -17,6 +17,7 @@ After the simulation ends, you will get six simulation results in .pdf files des
 | tt-short-dist.pdf | Comparison of total distance when time slots are small |
 | tt-rand-cnt.pdf | Comparison of average total distance with an unequal intial fuel |
 | tt-rand-dist.pdf | Comparison of average position change count with an unequal intial fuel |
+| rr-cnt.pdf | Comparison of position change count with and without RR algorithm |
 
 **Optional:** You can delete all simulation results files using one command.
 
