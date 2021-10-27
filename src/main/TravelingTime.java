@@ -11,7 +11,6 @@ public class TravelingTime extends DrivingThread {
 	@Override
 	public void run() {
 		int numTruck = this.cPlatoon.size();
-		double oriDist = getOriDist(this.platoon);
 
 		while (this.isDriving) {
 			try {
@@ -19,11 +18,7 @@ public class TravelingTime extends DrivingThread {
 			} catch (Exception e) {
 				e.getStackTrace();
 			}
-
-//			if (getCurrTime() != 0.0 && getDurationStatement()) {
-//				printStatus(this.cPlatoon);
-//			}
-
+			
 			for (int i = 0; i < numTruck; i++) {
 				Truck currTruck = this.cPlatoon.get(i);
 
@@ -45,21 +40,11 @@ public class TravelingTime extends DrivingThread {
 			}
 			distanceCnt++;
 		}
-//		printOrder(this.orders);
-//		System.out.println("---------------------------------------------------");
 
-//		System.out.printf("Distance %d km \n", this.distanceCnt - 1);
-//		System.out.printf("Time %.0f hr \n", getCurrTime());
-//		System.out.println("# of switching without algorithm " + getSwitchCnt(this.orders));
-
-		System.out.printf("tt_wo %d %s %d %d \n", this.cPlatoon.size(), this.duration, this.distanceCnt - 1,
+		System.out.printf("wo %d %s %d %d \n", this.cPlatoon.size(), this.duration, this.distanceCnt - 1,
 				getSwitchCnt(this.orders));
 
 		this.sortTimeSlot();
-
-		System.out.printf("tt_with %d %s %d %d %.0f %.2f\n", this.platoon.size(), this.duration, this.distanceCnt,
-				getSwitchCnt(this.checkOrders), oriDist, this.initFuel);
-
 	}
 
 }

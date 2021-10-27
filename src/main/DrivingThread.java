@@ -197,6 +197,7 @@ public abstract class DrivingThread implements Runnable {
 		initialParams();
 		sortOrders();
 
+		double oriDist = getOriDist(this.platoon);
 		while (isDriving) {
 			try {
 				Thread.sleep(0L);
@@ -251,6 +252,8 @@ public abstract class DrivingThread implements Runnable {
 //		System.out.println("# of switching " + this.switchCnt);
 //		System.out.println("# of switching with algorithm " + getSwitchCnt(this.checkOrders));
 //		System.out.println("---------------------------------------------------");
+		System.out.printf("with %d %s %d %d %.0f %.2f\n", this.platoon.size(), this.duration, this.distanceCnt,
+				getSwitchCnt(this.checkOrders), oriDist, this.initFuel);
 	}
 
 }
